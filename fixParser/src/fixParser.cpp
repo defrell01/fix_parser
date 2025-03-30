@@ -31,18 +31,16 @@ std::string FixParser::GetField(int tag) const
 	return (it != fields_.end()) ? it->second : "";
 }
 
-bool FixParser::validateChecksum_(const std::string& message, int expectedChecksum)
-{
-	size_t checksumPos = message.rfind("10="); // Находим начало "10=XXX"
-	if(checksumPos == std::string::npos)
-		return false;
-
-	int sum = 0;
-	for(size_t i = 0; i < checksumPos; i++)
-	{
-		sum += static_cast<unsigned char>(message[i]); // Считаем сумму всех байтов
-	}
-	int computedChecksum = sum % 256; // Берём по модулю 256
-
-	return computedChecksum == expectedChecksum;
-}
+bool FixParser::validateChecksum_(const std::string& message, int expectedChecksum) {
+     size_t checksumPos = message.rfind("10=");
+     if (checksumPos == std::string::npos) return false;
+ 
+     int sum = 0;
+     for (size_t i = 0; i < checksumPos; i++) {
+         sum += static_cast<unsigned char>(message[i]);
+     }
+     int computedChecksum = sum % 256;
+ 
+     return computedChecksum == expectedChecksum;
+ }
+ 
